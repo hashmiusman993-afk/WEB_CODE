@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Academy - Official</title>
+
+    <!-- Video Call Library -->
+    <script src='https://meet.jit.si/external_api.js'></script>
+
+    <style>
+        /* --- CSS STYLING --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            padding: 5px 5%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            height: 85px;
+        }
+
+        .logo {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            padding: 0 10px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .nav-links li a:hover {
+            color: #1a7b7b;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            border: 2px solid #1a7b7b;
+            color: #1a7b7b;
+        }
+
+        .login-btn:hover {
+            background: #f0fafa;
+        }
+
+        .reg-btn {
+            background: #1a7b7b;
+            color: #fff;
+        }
+
+        .reg-btn:hover {
+            background: #135d5d;
+        }
+
+        /* Image Section */
+        .image-section-container {
+            margin-top: 85px;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            background-color: #000;
+            position: relative;
+        }
+
+        .image-section-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center bottom;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 5px 2%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .image-section-container {
+                height: 400px;
+            }
+        }
+
+        /* Pages */
+        .page-section {
+            display: none;
+            padding: 40px 10% 60px;
+            min-height: 100vh;
+            animation: fadeIn 0.4s ease-in-out;
+            background-color: peru;
+        }
+
+        .active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Standard Card Style (Home/Fees/etc) */
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            border-top: 5px solid #1a7b7b;
+            background-color: #f0fafa;
+        }
+
+        h1 {
+            color: #239696;
+            margin-bottom: 25px;
+            font-size: 32px;
+        }
+
+        .action-btn {
+            background: #1a7b7b;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: #333;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* FEES TABLE STYLING */
+        .price-tag {
+            font-size: 36px;
+            color: #1a7b7b;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .price-period {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .features-list {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* CLASSROOM STYLES */
+        .class-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #239696;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-badge {
+            background: #e1f5e1;
+            color: #2e7d32;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        #video-container {
+            display: none;
+            height: 700px;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: white;
+            margin-top: 40px;
+        }
+
+        /* --- NEW PROFESSIONAL FORM STYLES (Login/Register/Contact) --- */
+
+        /* Container to center the form perfectly */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+        }
+
+        /* Professional Form Card */
+        .modern-form-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 450px;
+            /* Standard Width */
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-top: 6px solid #1a7b7b;
+            text-align: center;
+        }
+
+        .modern-form-card h2 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 28px;
+        }
+
+        .sub-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        /* Stylish Inputs */
+        .input-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .styled-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .styled-input:focus {
+            border-color: #1a7b7b;
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(26, 123, 123, 0.2);
+        }
+
+        textarea.styled-input {
+            resize: vertical;
+        }
+
+        /* Full Width Button */
+        .full-width-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        /* Links below buttons */
+        .form-footer {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .form-footer a {
+            color: #1a7b7b;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo" onclick="showPage('home')">
+            <img style="background-color: black;" src="Generated Image January 16, 2026 - 8_38AM.webp" alt="Logo">
+            <h1 style="color: black; padding-top: 25px; padding-left: 15px; font-size: 24px;">QURAN ACADEMY</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a onclick="showPage('home')">Home</a></li>
+            <li><a onclick="showPage('classroom')">Classroom</a></li>
+            <li><a onclick="showPage('fees')">Fees Plans</a></li>
+            <li><a onclick="showPage('teachers')">Teachers</a></li>
+            <li><a onclick="showPage('jobs')">Jobs</a></li>
+            <li><a onclick="showPage('courses')">Courses</a></li>
+            <li><a onclick="showPage('contact')">Contact</a></li>
+        </ul>
+        <div class="nav-buttons">
+            <a onclick="showPage('login')" class="btn login-btn">Login</a>
+            <a onclick="showPage('register')" class="btn reg-btn">Register</a>
+        </div>
+    </nav>
+
+    <!-- Image Banner -->
+    <div class="image-section-container">
+        <img src="digital-art-ramadan-celebration.jpg" alt="Islamic Banner">
+    </div>
+
+    <!-- 1. HOME PAGE -->
+    <section id="home" class="page-section active">
+        <h1 style="text-align: center; color: white; text-shadow: 1px 1px 2px black;">Welcome to Online Quran Academy
+        </h1>
+        <div class="card">
+            <h3>Learn with Tajweed</h3>
+            <p>We provide high-quality online Quran classes for kids and adults globally.</p>
+            <br>
+            <button class="action-btn" onclick="showPage('fees')">View Fees Plans</button>
+            <button class="action-btn" onclick="showPage('classroom')"
+                style="background-color: #239696; margin-left: 10px;">Join Live Class</button>
+        </div>
+        <div style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 10px; margin-top: 20px;">
+            <p style="color:black; font-size: 18px; margin: 10px 0;">1. "Unlock the beauty of QURAN with expert Tajweed
+                guidance."</p>
+            <p style="color:black; font-size: 18px; margin: 10px 0;">2. "Empower your spiritual journey with authentic
+                online Quran lessons."</p>
+        </div>
+    </section>
+
+    <!-- 2. FEES PAGE -->
+    <section id="fees" class="page-section">
+        <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+        <h1 style="text-align: center; color: white;">Fees & Packages</h1>
+
+        <div class="grid">
+            <!-- Plan 1 -->
+            <div class="card" style="text-align: center;">
+                <h3>Basic Plan</h3>
+                <div class="price-tag">$30 <span class="price-period">/ Month</span></div>
+                <p>For Beginners</p>
+                <ul class="features-list">
+                    <li>✅ 2 Days / Week</li>
+                    <li>✅ 30 Mins Class</li>
+                    <li>✅ Basic Qaida</li>
+                </ul>
+                <button class="action-btn" onclick="alert('Please pay and send screenshot on WhatsApp.')">Choose
+                    Plan</button>
+            </div>
+
+            <!-- Plan 2 -->
+            <div class="card" style="text-align: center; border-top: 5px solid #ff9900;">
+                <h3>Standard Plan</h3>
+                <div class="price-tag">$50 <span class="price-period">/ Month</span></div>
+                <p>Most Popular</p>
+                <ul class="features-list">
+                    <li>✅ 3 Days / Week</li>
+                    <li>✅ 30 Mins Class</li>
+                    <li>✅ Tajweed + Hifz</li>
+                </ul>
+                <button class="action-btn" onclick="alert('Please pay and send screenshot on WhatsApp.')"
+                    style="background: #ff9900;">Choose Plan</button>
+            </div>
+
+            <!-- Plan 3 -->
+            <div class="card" style="text-align: center;">
+                <h3>Premium Plan</h3>
+                <div class="price-tag">$80 <span class="price-period">/ Month</span></div>
+                <p>Intensive Learning</p>
+                <ul class="features-list">
+                    <li>✅ 5 Days / Week</li>
+                    <li>✅ 45 Mins Class</li>
+                    <li>✅ Full Hifz Support</li>
+                </ul>
+                <button class="action-btn" onclick="alert('Please pay and send screenshot on WhatsApp.')">Choose
+                    Plan</button>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 30px;">
+            <h2 style="color: #239696;">How to Pay Fees?</h2>
+            <p>Please send the fees to one of the following accounts and share the screenshot on WhatsApp.</p>
+            <hr style="margin: 15px 0;">
+            <div class="grid">
+                <div>
+                    <h4>🇵🇰 For Pakistan Students:</h4>
+                    <p><b>JazzCash:</b> 0300-1234567 (Your Name)</p>
+                    <p><b>EasyPaisa:</b> 0300-1234567 (Your Name)</p>
+                </div>
+                <div>
+                    <h4>🌎 For International Students:</h4>
+                    <p><b>Wise / Remitly:</b> info@quranacademy.com</p>
+                    <p>Contact directly on WhatsApp for fees system </p>
+                </div>
+            </div>
+            <br>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="action-btn" style="background-color: #25D366;"
+                    onclick="window.open('https://wa.me/923001234567', '_blank')">
+                    📩 Send Payment Proof on WhatsApp
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. CLASSROOM PAGE -->
+    <section id="classroom" class="page-section">
+        <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+        <div id="class-lobby">
+            <h1 style="color: white; text-align: center;">Live Classroom Lobby</h1>
+            <div class="class-card">
+                <div>
+                    <h3>Qari Muhammad Ahmad</h3><span class="status-badge">🟢 Online Now</span>
+                </div>
+                <button class="action-btn" onclick="connectToJitsi('QuranAcademy_Room_101', 'Qari Ahmad')">Join
+                    Class</button>
+            </div>
+            <div class="class-card">
+                <div>
+                    <h3>Hafiza Fatima (Females)</h3><span class="status-badge">🟡 Class Starts 10 AM</span>
+                </div>
+                <button class="action-btn" onclick="connectToJitsi('QuranAcademy_Room_102', 'Hafiza Fatima')">Join
+                    Class</button>
+            </div>
+        </div>
+        <div id="video-container">
+            <div
+                style="background: #239696; color: white; padding: 10px; display: flex; justify-content: space-between;">
+                <span id="room-title">Connected</span>
+                <button onclick="disconnectCall()"
+                    style="background: #ff4444; color: white; border: none; padding: 5px 15px; border-radius: 5px;">Hang
+                    Up</button>
+            </div>
+            <div id="meet" style="width: 100%; height: 100%;"></div>
+        </div>
+    </section>
+
+
+    <section id="teachers" class="page-section">
+        <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+        <h1>Our Expert Teachers</h1>
+        <div class="grid">
+            <div class="card">
+                <h3>Qari Muhammad Ahmad</h3>
+                <p>Specialist in Tajweed & Qirat.</p>
+            </div>
+            <div class="card">
+                <h3>Hafiza Fatima</h3>
+                <p>Qualified Female Tutor.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="jobs" class="page-section">
+        <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+        <h1>Quran Teaching Jobs</h1>
+        <div class="card">
+            <h3>Online Quran Tutor</h3>
+            <p>Requirements: Hafiz-e-Quran.</p><br><button class="action-btn">Apply Now</button>
+        </div>
+    </section>
+
+
+    <section id="courses" class="page-section">
+        <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+        <h1>Available Courses</h1>
+        <div class="grid">
+            <div class="card">
+                <h3>Noorani Qaida</h3>
+                <p>Foundation course.</p>
+            </div>
+            <div class="card">
+                <h3>Quran with Tajweed</h3>
+                <p>Recite correctly.</p>
+            </div>
+            <div class="card">
+                <h3>Hifz-ul-Quran</h3>
+                <p>Memorization.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="contact" class="page-section">
+        <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+
+        <div class="auth-container">
+            <div class="modern-form-card">
+                <h2>Get in Touch</h2>
+                <p class="sub-text">Have questions? We are here to help!</p>
+
+                <form onsubmit="event.preventDefault(); alert('Message Sent Successfully!');">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" class="styled-input" placeholder="e.g. Ali Khan" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" class="styled-input" placeholder="name@example.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Your Message</label>
+                        <textarea rows="4" class="styled-input" placeholder="Type your query here..."
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="action-btn full-width-btn">Send Message</button>
+                </form>
+
+                <div class="form-footer">
+                    <p>Or WhatsApp us directly: <strong>+92 300 1234567</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="terms" class="page-section">
+        <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+        <h1 style="text-align: center; color: white;">Terms & Privacy Policy</h1>
+
+        <div class="card">
+            <h3>1. Privacy Policy</h3>
+            <p>At Quran Academy, we respect your privacy. The information you provide (Name, Email, Phone) is used
+                <b>only for classes</b>. We do not sell or share your data with anyone.</p>
+
+            <h3 style="margin-top: 20px;">2. Fees & Refund</h3>
+            <p>• Fees must be paid in advance before the classes start.</p>
+            <p>• If a student is not satisfied in the first week, we offer a partial refund.</p>
+            <p>• Fees once paid for the full month are generally non-refundable.</p>
+
+            <h3 style="margin-top: 20px;">3. Class Rules</h3>
+            <p>• Please join the class on time.</p>
+            <p>• If you need to skip a class, inform the teacher 2 hours before.</p>
+            <p>• Respect towards teachers is mandatory. Any misbehavior will result in account suspension.</p>
+        </div>
+    </section>
+
+    <section id="login" class="page-section">
+        <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+
+        <div class="auth-container">
+            <div class="modern-form-card">
+                <h2>Welcome Back</h2>
+                <p class="sub-text">Please login to access your classroom.</p>
+
+                <form onsubmit="event.preventDefault(); showPage('home');">
+                    <div class="input-group">
+                        <label>Username / Email</label>
+                        <input type="text" class="styled-input" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" class="styled-input" placeholder="••••••••" required>
+                    </div>
+
+                    <button class="action-btn full-width-btn">Sign In</button>
+                </form>
+
+                <div class="form-footer">
+                    <p>Don't have an account? <a onclick="showPage('register')">Register Here</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="register" class="page-section">
+        <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+
+        <div class="auth-container">
+            <div class="modern-form-card">
+                <h2>Create Account</h2>
+                <p class="sub-text">Start your Quran learning journey today.</p>
+
+                <form onsubmit="event.preventDefault(); showPage('login');">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" class="styled-input" placeholder="Student Name" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" class="styled-input" placeholder="name@example.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Set Password</label>
+                        <input type="password" class="styled-input" placeholder="Create a strong password" required>
+                    </div>
+
+                    <button class="action-btn full-width-btn">Create Account</button>
+                </form>
+
+                <div class="form-footer">
+                    <p>Already registered? <a onclick="showPage('login')">Login Here</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let api = null;
+
+        function connectToJitsi(roomName, teacherName) {
+            document.getElementById('class-lobby').style.display = 'none';
+            document.getElementById('video-container').style.display = 'block';
+            document.getElementById('room-title').innerText = "Class with: " + teacherName;
+
+            const domain = 'meet.jit.si';
+            const options = {
+                roomName: roomName,
+                width: '100%',
+                height: '100%',
+                parentNode: document.querySelector('#meet'),
+                configOverwrite: { startWithAudioMuted: true, prejoinPageEnabled: false },
+                interfaceConfigOverwrite: { SHOW_JITSI_WATERMARK: false }
+            };
+
+            if (api) api.dispose();
+            api = new JitsiMeetExternalAPI(domain, options);
+        }
+
+        function disconnectCall() {
+            if (api) { api.dispose(); api = null; }
+            document.getElementById('video-container').style.display = 'none';
+            document.getElementById('class-lobby').style.display = 'block';
+            document.getElementById('meet').innerHTML = "";
+        }
+
+        function showPage(pageId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => { section.classList.remove('active'); });
+
+            const activeSection = document.getElementById(pageId);
+            if (activeSection) { activeSection.classList.add('active'); }
+
+            const imgContainer = document.querySelector('.image-section-container');
+            if (pageId === 'home') { imgContainer.style.display = 'block'; } else { imgContainer.style.display = 'none'; }
+
+            if (pageId !== 'classroom' && api) { disconnectCall(); }
+
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+
+</html>

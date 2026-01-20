@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Header Styling */
+.header-area {
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-link {
+    color: #333 !important;
+    font-size: 15px;
+    padding: 10px 15px !important;
+}
+
+.btn-touch {
+    background-color: #0089ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Hero Section Styling (Sky Nexus Style) */
+.main-section {
+    min-height: 90vh;
+    /* Purple and Blue Gradient like the Image */
+    background: linear-gradient(135deg, #1b3a6b 0%, #3e1b6b 50%, #6b1b65 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-box {
+    max-width: 900px;
+}
+
+.main-heading {
+    font-size: 55px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.main-para {
+    font-size: 18px;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+/* Buttons inside Hero Section */
+.btn-get-started {
+    background-color: white;
+    color: #3e1b6b;
+    border: none;
+    padding: 12px 30px;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+.btn-explore {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 12px 30px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .main-heading {
+        font-size: 35px;
+    }
+}

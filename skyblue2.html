@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Sky Nexus - Official Final Work</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #ffffff;
+        }
+
+        /* --- NAVBAR & LOGO --- */
+        .navbar {
+            background-color: white !important;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sky-logo-img {
+            height: 45px;
+            width: auto;
+        }
+
+        .sky-blue-text {
+            font-weight: 700;
+            font-size: 24px;
+            background: linear-gradient(90deg, #0089ff 0%, #5e2c8c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        /* --- MENU BUTTON BOXES (BLACK BORDER) --- */
+        .navbar-nav .nav-item {
+            margin: 0 4px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #000 !important;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 10px 18px !important;
+            display: flex;
+            align-items: center;
+            border: 2px solid #000 !important;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        /* --- PURPLE SHADE ON CLICK/SHOW --- */
+        .nav-link:active,
+        .nav-link.show,
+        .nav-link:focus {
+            background-color: #5e2c8c !important;
+            color: white !important;
+        }
+
+        .nav-arrow {
+            font-size: 10px;
+            margin-left: 8px;
+            transition: 0.3s;
+        }
+
+        .nav-link.show .nav-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* --- MEGA MENU (11 & 16 BOXES) --- */
+        .dropdown-menu {
+            width: 100vw;
+            position: absolute;
+            left: 0;
+            right: 0;
+            border: none;
+            border-top: 5px solid #5e2c8c;
+            border-radius: 0;
+            margin-top: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px 0;
+            background: #fff;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .menu-box {
+            padding: 15px;
+            text-decoration: none;
+            display: block;
+            border: none !important;
+            transition: 0.2s;
+        }
+
+        .menu-box:hover {
+            background-color: #5e2c8c !important;
+            color: white !important;
+            border-radius: 8px;
+        }
+
+        .menu-box h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        /* --- ACTION ICONS --- */
+        .nav-icons-group i {
+            color: #333;
+            font-size: 18px;
+            cursor: pointer;
+            margin-left: 18px;
+            transition: 0.3s;
+        }
+
+        .nav-icons-group i:hover {
+            color: #5e2c8c;
+        }
+
+        .btn-get-touch {
+            background-color: #5e2c8c !important;
+            color: white !important;
+            border: 2px solid #000 !important;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-left: 15px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        /* --- HERO SECTION --- */
+        .main-hero-section {
+            height: 90vh;
+            background: linear-gradient(135deg, rgba(0, 137, 255, 0.45), rgba(94, 44, 140, 0.5)),
+                url('https://i.ibb.co/93tVqF6W/sky-nexus-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero-h1 {
+            font-size: clamp(35px, 8vw, 68px);
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .hero-p {
+            max-width: 950px;
+            font-size: 18px;
+            line-height: 1.7;
+            margin: 0 auto 40px;
+        }
+
+        .btn-hero-purple {
+            background: #5e2c8c;
+            color: white;
+            border: none !important;
+            padding: 14px 45px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-hero-outline {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid white !important;
+            padding: 14px 45px;
+            border-radius: 6px;
+            margin-left: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+            display: inline-block;
+        }
+
+        /* --- SEARCH OVERLAY --- */
+        #searchOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(94, 44, 140, 0.98);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .search-input {
+            width: 60%;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid white;
+            color: white;
+            font-size: 30px;
+            outline: none;
+        }
+
+        /* --- SECTION 3: WHITE CARDS --- */
+        .s3-white-section {
+            padding: 100px 0;
+        }
+
+        .s3-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .s3-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .s3-card-white {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            text-align: left;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .s3-card-white:hover {
+            transform: translateY(-10px);
+            border: 1px solid #007bff;
+            box-shadow: 0 15px 35px rgba(0, 123, 255, 0.12);
+        }
+
+        .s3-icon-box {
+            font-size: 55px;
+            color: #007bff;
+            margin-bottom: 25px;
+            line-height: 1;
+        }
+
+        .s3-card-title {
+            font-size: 23px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 15px;
+        }
+
+        .s3-card-text {
+            font-size: 14.5px;
+            color: #555;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 991px) {
+            .s3-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .s3-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .view-all-btn {
+            background-color: transparent;
+            color: #000000;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px 30px;
+            border: 2px solid #000000;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .view-all-btn:hover {
+            background-color: #0089ff;
+            color: #ffffff;
+            border-color: #0089ff;
+        }
+
+        .view-all-btn:active {
+            background-color: #5e2c8c !important;
+            border-color: #5e2c8c !important;
+            color: #ffffff;
+            transform: scale(0.96);
+        }
+
+        about-section {
+            padding: 80px 0;
+            background-color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 60px;
+            padding: 0 20px;
+        }
+
+        .about-image-side {
+            flex: 1;
+            min-width: 300px;
+            margin-top: 50px;
+        }
+
+        .about-image-side img {
+            width: 100%;
+
+            height: 440px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+
+
+        .about-content-side {
+            flex: 1.2;
+            min-width: 300px;
+            margin-top: -30px;
+        }
+
+        .about-content-side h2 {
+            font-size: 38px;
+            font-weight: 800;
+            color: #222;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .about-content-side p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .about-checklist {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .about-checklist li {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .about-checklist li i {
+            color: #0089ff;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+
+        .learn-more-btn {
+            display: inline-block;
+            padding: 14px 35px;
+            background-color: #87CEEB;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 5px;
+            transition: 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .learn-more-btn:hover {
+            background-color: #00bfff;
+        }
+
+        @media (max-width: 991px) {
+            .about-image-side img {
+                height: auto;
+            }
+
+            .about-content-side {
+                margin-top: 0;
+                text-align: center;
+            }
+
+            .about-checklist li {
+                justify-content: center;
+            }
+        }
+ .industries-section {
+        padding: 80px 20px;
+        background-color: #f9f9f9; 
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .industries-container {
+        max-width: 900px; 
+        margin: 0 auto;
+    }
+
+    .industries-section h2 {
+        font-size: 42px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 25px;
+        letter-spacing: -0.5px;
+    }
+
+    .industries-section p {
+        font-size: 18px;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 0;
+        padding: 0 10px;
+    }
+
+
+    @media (max-width: 768px) {
+        .industries-section h2 {
+            font-size: 32px;
+        }
+        .industries-section p {
+            font-size: 16px;
+        }
+    }
+    
+    .industries-main-section {
+        padding: 60px 0;
+        background-color: #f8f9fa; 
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .industries-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 20px;
+        padding: 0 20px;
+    }
+
+    .ind-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 40px 20px;
+        text-align: center;
+        text-decoration: none;
+        transition: 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    
+    .ind-card:hover {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transform: translateY(-5px);
+    }
+
+
+    .ind-icon-box {
+        width: 65px;
+        height: 65px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    
+    .bg-h { background-color: #e3f2fd; color: #64b5f6; } 
+    .bg-f { background-color: #f3e5f5; color: #ba68c8; } 
+    .bg-e { background-color: #e3f2fd; color: #1e88e5; } 
+    .bg-r { background-color: #fff3e0; color: #ffb74d; } 
+    .bg-m { background-color: #ffebee; color: #e57373; } 
+    .bg-t { background-color: #e0f2f1; color: #4db6ac; } 
+    .bg-g { background-color: #e8f5e9; color: #81c784; } 
+    .bg-s { background-color: #f1f8e9; color: #aed581; } 
+
+    .ind-icon-box i { font-size: 28px; }
+
+    .ind-card h3 {
+        font-size: 18px;
+        color: #444;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .active-card h3 { color: #1e88e5; }
+    .active-card h3::after {
+        content: '';
+        display: block;
+        width: 30px;
+        height: 3px;
+        background-color: #1e88e5;
+        margin: 8px auto 0;
+        border-radius: 2px;
+    }
+
+    .explore-btn-wrapper {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .explore-all-btn {
+        display: inline-block;
+        padding: 12px 35px;
+        background-color: #5bc0de; 
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 6px;
+        transition: 0.3s;
+        text-transform: none;
+        font-size: 16px;
+    }
+
+    .explore-all-btn:hover {
+        background-color: #31b0d5;
+        box-shadow: 0 4px 12px rgba(91, 192, 222, 0.4);
+    }
+
+
+    @media (max-width: 991px) {
+        .industries-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+        .industries-grid { grid-template-columns: 1fr; }
+    }
+.clients-intro-section {
+        padding: 80px 20px;
+        background-color: #ffffff; 
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .clients-intro-container {
+        max-width: 1000px; 
+        margin: 0 auto;
+    }
+
+    .clients-intro-section h2 {
+        font-size: 42px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 30px;
+        letter-spacing: -0.5px;
+    }
+
+    .clients-intro-section p {
+        font-size: 18px;
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 0;
+        padding: 0 15px;
+    }
+
+    @media (max-width: 768px) {
+        .clients-intro-section h2 {
+            font-size: 32px;
+        }
+        .clients-intro-section p {
+            font-size: 16px;
+        }
+    }
+    </style>
+</head>
+
+<body>
+
+    <div id="searchOverlay">
+        <span style="position:absolute; top:30px; right:50px; color:white; font-size:45px; cursor:pointer;"
+            onclick="closeSearch()">&times;</span>
+        <input type="text" class="search-input" placeholder="Search Sky Nexus...">
+    </div>
+
+    <div class="modal fade" id="demoModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-4 text-center">
+                <h4 style="color:#5e2c8c">Book a Live Demo</h4>
+                <p>Experience our ICT solutions first-hand.</p>
+                <button class="btn text-white w-100" style="background:#5e2c8c">Schedule Demo</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="contactModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-4">
+                <h4 style="color:#5e2c8c">Get in Touch</h4>
+                <input type="text" class="form-control mb-2" placeholder="Your Name">
+                <textarea class="form-control mb-3" placeholder="How can we help?"></textarea>
+                <button class="btn text-white w-100" style="background:#5e2c8c">Send Message</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
+        <div class="container-fluid px-lg-5">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="https://i.ibb.co/SSbPqX7/sky-nexus-logo.png" alt="Logo" class="sky-logo-img">
+                <span class="ms-2 sky-blue-text">Sky Nexus</span>
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#">Home <i
+                                class="fa-solid fa-chevron-down nav-arrow"></i></a></li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">About Us <i
+                                class="fa-solid fa-chevron-down nav-arrow"></i></a>
+                        <div class="dropdown-menu">
+                            <div class="menu-grid">
+                                <script>for (let i = 1; i <= 11; i++) { document.write('<a href="#" class="menu-box"><h4>About Feature ' + i + '</h4><p>Details here.</p></a>'); }</script>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Services <i
+                                class="fa-solid fa-chevron-down nav-arrow"></i></a>
+                        <div class="dropdown-menu">
+                            <div class="menu-grid">
+                                <script>for (let i = 1; i <= 16; i++) { document.write('<a href="#" class="menu-box"><h4>Service Link ' + i + '</h4><p>IT Solutions.</p></a>'); }</script>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" href="#">Industries <i
+                                class="fa-solid fa-chevron-down nav-arrow"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Blog <i
+                                class="fa-solid fa-chevron-down nav-arrow"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact <i
+                                class="fa-solid fa-chevron-down nav-arrow"></i></a></li>
+
+                    <li class="nav-item ms-lg-3 d-flex align-items-center nav-icons-group">
+                        <i class="fa-solid fa-magnifying-glass" onclick="openSearch()"></i>
+                        <i class="fa-solid fa-desktop" data-bs-toggle="modal" data-bs-target="#demoModal"></i>
+                        <div class="btn-get-touch" data-bs-toggle="modal" data-bs-target="#contactModal">Get in Touch
+                        </div>
+                        <i class="fa-solid fa-right-to-bracket" title="Login"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="main-hero-section">
+        <div class="container">
+            <h1 class="hero-h1">Your Trusted IT Partner</h1>
+            <p class="hero-p">
+                Welcome to Sky Nexus! Empowering Australian businesses through innovation and security, we are your
+                trusted technology partner delivering end-to-end ICT solutions. From digital transformation and software
+                development to business intelligence, data analytics, and cybersecurity, we help organisations harness
+                data-driven insights to grow smarter, work safer, optimise operations, and achieve more.
+            </p>
+            <div class="d-flex justify-content-center">
+                <a href="#contactModal" data-bs-toggle="modal" class="btn-hero-purple">Get Started</a>
+                <a href="#" class="btn-hero-outline">Explore Services</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function openSearch() { document.getElementById("searchOverlay").style.display = "flex"; }
+        function closeSearch() { document.getElementById("searchOverlay").style.display = "none"; }
+    </script>
+    <section id="our-services" class="services-wrapper">
+        <div class="container">
+            <h1 style="font-weight:700; font-size:36px; color:#222; text-align: center; padding-top: 50px;">Our Services
+            </h1>
+            <p style="max-width:850px; margin:20px auto; color:#555; font-size:18px; line-height:1.6;">
+                Our team of industry expert professionals delivers cutting-edge solutions tailored to meet the unique
+                challenges of modern businesses across finance, healthcare, retail, and more.
+            </p>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <section class="s3-white-section">
+        <div class="s3-container">
+            <div class="s3-grid">
+                <div class="s3-card-white">
+                    <div class="s3-icon-box">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="s3-card-title">Cybersecurity</h3>
+                    <p class="s3-card-text">End-to-end cybersecurity services including threat detection, data
+                        protection, and compliance.</p>
+                </div>
+                <div class="s3-card-white">
+                    <div class="s3-icon-box">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="s3-card-title">Business Intelligence</h3>
+                    <p class="s3-card-text">BI platforms that enable companies to monitor market trends and analyze
+                        customer behavior.</p>
+                </div>
+                <div class="s3-card-white">
+                    <div class="s3-icon-box">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3 class="s3-card-title">Software Development</h3>
+                    <p class="s3-card-text">Custom software solutions that enhance productivity and provide secure,
+                        scalable applications.</p>
+                </div>
+                <div class="s3-card-white">
+                    <div class="s3-icon-box">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+                    <h3 class="s3-card-title">Data Analytics</h3>
+                    <p class="s3-card-text">Advanced analytical tools leveraging AI and machine learning to provide
+                        actionable insights.</p>
+                </div>
+            </div>
+        </div>
+        <section style="padding: 50px 0; text-align: center;">
+            <button class="view-all-btn">View All Services</button>
+        </section>
+    </section>
+    <section class="about-section">
+        <div class="about-container">
+
+            <div class="about-image-side">
+                <img src="https://i.ibb.co/vK6ygmf/sky-nexus-sydney-tech.png" alt="Sky Nexus">
+            </div>
+
+            <div class="about-content-side">
+                <h2>About Sky Nexus</h2>
+
+                <p>
+                    Sky Nexus, headquartered in Melbourne, is your trusted one-stop ICT partner.
+                    Founded in 2024, we empower Australian businesses with innovative, secure,
+                    and intelligent technology solutions - from software development and cloud
+                    computing to IT consulting and cybersecurity.
+                </p>
+                <p>
+                    We're committed to delivering customized digital solutions that address the
+                    unique challenges of modern businesses across various industries.
+                </p>
+
+                <ul class="about-checklist">
+                    <li><i class="fa-solid fa-circle-check"></i> Experienced team of IT professionals</li>
+                    <li><i class="fa-solid fa-circle-check"></i> AI and ML-powered solutions</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Tailored solutions for your business needs</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Focus on security and reliability</li>
+                </ul>
+
+                <a href="#" class="learn-more-btn">LEARN MORE ABOUT US</a>
+            </div>
+
+        </div>
+        </section>
+        <section class="industries-section">
+    <div class="industries-container">
+        <h2>Industries We Serve</h2>
+        
+        <p>
+            We proudly serve a diverse range of industries - from small businesses and startups to 
+            large enterprises, government agencies, and not-for-profit organizations. Our tailored 
+            approach ensures that every client receives personalized, efficient, and results-driven 
+            solutions aligned with their goals, resources, and compliance needs. Whether it's 
+            enhancing operational efficiency for SMEs, strengthening cybersecurity for government 
+            entities, streamlining systems for NFPs, or driving digital transformation for enterprise 
+            clients, we adapt our expertise to each sector's unique challenges - delivering 
+            technology that empowers growth, innovation, and long-term success.
+        </p>
+    </div>
+</section>
+<section class="industries-main-section">
+    <div class="industries-grid">
+        
+        <a href="#" class="ind-card">
+            <div class="ind-icon-box bg-h"><i class="fa-regular fa-heart"></i></div>
+            <h3>Healthcare</h3>
+        </a>
+
+        <a href="#" class="ind-card">
+            <div class="ind-icon-box bg-f"><i class="fa-solid fa-dollar-sign"></i></div>
+            <h3>Finance</h3>
+        </a>
+
+        <a href="#" class="ind-card active-card">
+            <div class="ind-icon-box bg-e"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h3>Education</h3>
+        </a>
+
+        <a href="#" class="ind-card">
+            <div class="ind-icon-box bg-r"><i class="fa-solid fa-briefcase"></i></div>
+            <h3>Retail</h3>
+        </a>
+
+        <a href="#" class="ind-card">
+            <div class="ind-icon-box bg-m"><i class="fa-solid fa-industry"></i></div>
+            <h3>Manufacturing</h3>
+        </a>
+
+        <a href="#" class="ind-card">
+            <div class="ind-icon-box bg-t"><i class="fa-solid fa-microchip"></i></div>
+            <h3>Technology</h3>
+        </a>
+
+        <a href="#" class="ind-card">
+            <div class="ind-icon-box bg-g"><i class="fa-solid fa-building"></i></div>
+            <h3>Government</h3>
+        </a>
+
+        <a href="#" class="ind-card">
+            <div class="ind-icon-box bg-s"><i class="fa-solid fa-leaf"></i></div>
+            <h3>Sustainability</h3>
+        </a>
+
+    </div>
+
+    <div class="explore-btn-wrapper">
+        <a href="#" class="explore-all-btn">Explore All Industries</a>
+    </div>
+</section>
+<section class="clients-intro-section">
+    <div class="clients-intro-container">
+        <h2>What Our Clients Say</h2>
+        
+        <p>
+            With a strong commitment to excellence, integrity, and innovation, Sky Nexus has 
+            earned the trust of businesses, not-for-profit organisations, and government partners 
+            across Australia. Our clients consistently highlight our personalised approach, technical 
+            expertise, and dedication to delivering real results. From developing intelligent software 
+            solutions and secure IT infrastructures to driving full-scale digital transformation, our 
+            team ensures every project is executed with precision and transparency. Clients value 
+            our ability to listen, adapt, and provide scalable solutions that align with their vision - 
+            helping them save time, reduce costs, and enhance operational performance. At Sky 
+            Nexus, client satisfaction is more than a goal - it's a promise. Each success story reflects 
+            our unwavering commitment to building long-term partnerships grounded in trust, 
+            collaboration, and technological excellence.
+        </p>
+    </div>
+</section>
+
+
+
+
+</body>
+
+</html>

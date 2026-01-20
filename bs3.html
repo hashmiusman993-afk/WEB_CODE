@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS INFINITY | Live Gaming Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- EXPERT DESIGN SYSTEM (Cyberpunk/Glassmorphism) --- */
+        :root {
+            --primary-hue: 260;
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #bc13fe;
+            --glass-bg: rgba(18, 18, 28, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-sec: #a0a0a0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Moving Cyber Grid Background */
+        .cyber-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(188, 19, 254, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: moveGrid 10s linear infinite;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+        }
+
+        /* --- MAIN CARD --- */
+        .app-card {
+            width: 95%;
+            max-width: 750px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 0 50px rgba(188, 19, 254, 0.2);
+            position: relative;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+
+        .hud-stats {
+            display: flex;
+            gap: 15px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .stat-item span { color: var(--neon-blue); }
+
+        /* --- LOADING SPINNER --- */
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid transparent;
+            border-top: 3px solid var(--neon-blue);
+            border-right: 3px solid var(--neon-pink);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- QUIZ AREA --- */
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-sec);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #question-text {
+            font-size: 1.4rem;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            min-height: 80px;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: 1fr;
+        }
+
+        @media(min-width: 600px) { .options-grid { grid-template-columns: 1fr 1fr; } }
+
+        .option-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            padding: 1.2rem;
+            border-radius: 12px;
+            color: #d1d5db;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--neon-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
+        }
+
+        .option-btn.correct {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: #00ff88;
+            color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .option-btn.wrong {
+            background: rgba(255, 42, 42, 0.15);
+            border-color: #ff2a2a;
+            color: #ff2a2a;
+            opacity: 0.6;
+        }
+
+        /* --- PROGRESS --- */
+        .progress-bar {
+            height: 4px;
+            background: #222;
+            width: 100%;
+            margin-top: 2rem;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            transition: width 0.3s ease;
+        }
+
+        /* --- RESULT SCREEN --- */
+        .result-view { text-align: center; animation: fadeIn 0.5s ease; }
+        
+        .score-big {
+            font-size: 4rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 800;
+            background: linear-gradient(180deg, #fff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 1rem 0;
+        }
+
+        .cyber-btn {
+            background: var(--neon-purple);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+          font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            clip-path: polygon(15% 0, 100% 0, 100% 70%, 85% 100%, 0 100%, 0 30%);
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .cyber-btn:hover {
+            transform: scale(1.05);
+            background: var(--neon-pink);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.4);
+        }
+
+        .hidden { display: none !important; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="cyber-grid"></div>
+
+    <div class="app-card">
+        <header>
+            <div class="logo">NEXUS <span style="font-weight:300; opacity:0.7">INFINITY</span></div>
+            <div class="hud-stats">
+                <div class="stat-item">XP: <span id="score">0</span></div>
+            </div>
+        </header>
+
+        <!-- Loading Screen -->
+        <div id="loader" class="loader-container hidden">
+            <div class="spinner"></div>
+            <p style="letter-spacing: 2px; font-size: 0.8rem;">ACCESSING MAINFRAME...</p>
+        </div>
+
+        <!-- Quiz Screen -->
+        <main id="game-interface">
+            <div class="question-meta">
+                <span id="q-category">SYSTEM</span>
+                <span id="q-difficulty">HARD</span>
+            </div>
+            
+            <h2 id="question-text">Initialize Protocol...</h2>
+
+            <div class="options-grid" id="options-container">
+                <!-- Dynamic Buttons -->
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </main>
+
+        <!-- Result Screen -->
+        <div id="result-interface" class="result-view hidden">
+            <h3>MISSION DEBRIEF</h3>
+            <div class="score-big" id="final-score">0</div>
+            <p id="rank-msg" style="color: var(--text-sec); margin-bottom:2rem;">Calculating...</p>
+            <button class="cyber-btn" onclick="startGame()">Next Mission</button>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * NEXUS INFINITY ENGINE
+         * Connects to OpenTDB API for UNLIMITED Questions
+         * Fallback to local DB if offline.
+         */
+
+        const API_URL = "https://opentdb.com/api.php?amount=10&category=15&type=multiple"; // Category 15 = Video Games
+        
+        // Backup Data (If API Fails or Offline)
+        const BACKUP_QUESTIONS = [
+            { question: "What was the first commercially successful video game?", correct_answer: "Pong", incorrect_answers: ["Tetris", "Space Invaders", "Pac-Man"] },
+            { question: "Which engine powers 'Fortnite'?", correct_answer: "Unreal Engine", incorrect_answers: ["Unity", "Source", "CryEngine"] },
+            { question: "In 'The Witcher 3', who is Ciri's biological father?", correct_answer: "Emhyr var Emreis", incorrect_answers: ["Geralt", "Vesemir", "Radovid"] },
+            { question: "What does HUD stand for in gaming?", correct_answer: "Heads Up Display", incorrect_answers: ["Human Unit Device", "Head Unit Data", "Hero User Display"] },
+            { question: "Which company created the 'Switch'?", correct_answer: "Nintendo", incorrect_answers: ["Sony", "Microsoft", "Sega"] }
+        ];
+
+        let questions = [];
+        let currentIndex = 0;
+        let score = 0;
+        let isApiMode = true;
+
+        const ui = {
+            loader: document.getElementById('loader'),
+            game: document.getElementById('game-interface'),
+            results: document.getElementById('result-interface'),
+            qText: document.getElementById('question-text'),
+            cat: document.getElementById('q-category'),
+            diff: document.getElementById('q-difficulty'),
+            opts: document.getElementById('options-container'),
+            score: document.getElementById('score'),
+            prog: document.getElementById('progress-fill'),
+            finalScore: document.getElementById('final-score'),
+            rankMsg: document.getElementById('rank-msg')
+        };
+
+        // --- UTILITIES ---
+        
+        // HTML Entity Decoder (API returns things like "Don&039;t")
+        function decodeHTML(html) {
+            const txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
+        }
+
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        // --- CORE LOGIC ---
+
+        async function startGame() {
+            // Reset UI
+            score = 0;
+            currentIndex = 0;
+            ui.score.innerText = "0";
+            ui.game.classList.add('hidden');
+            ui.results.classList.add('hidden');
+            ui.loader.classList.remove('hidden');
+
+            try {
+                // Fetching Live Questions
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                if(data.results && data.results.length > 0) {
+                    questions = data.results;
+                    isApiMode = true;
+                } else {
+                    throw new Error("API Empty");
+                }
+            } catch (error) {
+                console.warn("Offline Mode Activated");
+                questions = shuffle([...BACKUP_QUESTIONS]).slice(0, 5); // Use backup
+                isApiMode = false;
+            }
+
+            // Start Round
+            ui.loader.classList.add('hidden');
+            ui.game.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questions[currentIndex];
+            
+            // Set Text
+            ui.qText.innerText = isApiMode ? decodeHTML(q.question) : q.question;
+            ui.cat.innerText = isApiMode ? q.category : "LEGACY DB";
+            ui.diff.innerText = isApiMode ? q.difficulty : "NORMAL";
+
+            // Prepare Options
+            let allOpts = [...q.incorrect_answers, q.correct_answer];
+            allOpts = shuffle(allOpts);
+
+            ui.opts.innerHTML = ''; // Clear
+
+            // Create Buttons
+            allOpts.forEach(opt => {
+                const btn = document.createElement('div');
+                btn.className = 'option-btn';
+                btn.innerText = isApiMode ? decodeHTML(opt) : opt;
+                btn.onclick = () => handleAnswer(opt, q.correct_answer, btn, allOpts);
+                ui.opts.appendChild(btn);
+            });
+
+            // Update Progress
+            const pct = (currentIndex / questions.length) * 100;
+            ui.prog.style.width = `${pct}%`;
+        }
+
+        function handleAnswer(selected, correct, btn, allOptsInOrder) {
+            // Disable clicks
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(b => {
+                b.onclick = null;
+                b.classList.add('disabled');
+                
+                // Highlight correct answer automatically
+                if(b.innerText === (isApiMode ? decodeHTML(correct) : correct)) {
+                    b.classList.add('correct');
+                }
+            });
+
+            // Check correctness
+            if(selected === correct) {
+                // Correct
+                score += 100;
+                ui.score.innerText = score;
+                // Since we already highlighted correct above, we just add glow to selected
+            } else {
+                // Wrong
+                btn.classList.add('wrong');
+            }
+
+            // Next Question Delay
+            setTimeout(() => {
+                currentIndex++;
+                if(currentIndex < questions.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            }, 1500);
+        }
+
+        function showResults() {
+            ui.game.classList.add('hidden');
+            ui.results.classList.remove('hidden');
+            
+            ui.finalScore.innerText = score;
+            const max = questions.length * 100;
+            const pct = (score / max) * 100;
+
+            let msg = "";
+            if(pct === 100) msg = "PERFECT SCORE - SYSTEM HACKED";
+            else if(pct >= 80) msg = "ELITE PERFORMANCE";
+            else if(pct >= 50) msg = "STANDARD PROTOCOL";
+            else msg = "SYSTEM FAILURE - RETRY REQUIRED";
+
+            ui.rankMsg.innerText = msg;
+            ui.prog.style.width = "100%";
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', startGame);
+
+    </script>
+</body>
+</html>

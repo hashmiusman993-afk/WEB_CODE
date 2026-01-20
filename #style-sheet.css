@@ -1,0 +1,27 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* Home Hero Section */
+.hero-bg {
+    background: #007bff;
+    height: 70vh;
+}
+
+/* Section Spacing */
+section {
+    padding: 80px 0;
+}
+
+/* Card Hover Effect */
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    background-color: #007bff;
+    color: white;
+}
+
